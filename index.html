@@ -1,0 +1,2606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mario & Sonic Score Submission</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1e88e5;
+      --primary-dark: #1565c0;
+      --primary-light: #64b5f6;
+      --secondary: #f5f9ff;
+      --text: #263238;
+      --text-light: #607d8b;
+      --white: #ffffff;
+      --border: #e0e0e0;
+      --success: #4caf50;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.15);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background-color: var(--secondary);
+      padding: 0;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: var(--white);
+      padding: 2rem 0;
+      text-align: center;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    h1 {
+      font-weight: 500;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      background: var(--white);
+      padding: 0.5rem;
+      border-radius: 50px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tab {
+      padding: 0.8rem 1.5rem;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      border-radius: 50px;
+      font-weight: 500;
+      color: var(--text-light);
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .tab:hover {
+      color: var(--primary);
+      background: rgba(30, 136, 229, 0.1);
+    }
+
+    .tab.active {
+      background: var(--primary);
+      color: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .tab-content {
+      display: none;
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 2rem;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .language-selector {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .language-selector select {
+      padding: 0.6rem 1rem;
+      width: 120px;
+      border-radius: 8px;
+      border: 2px solid var(--border);
+      background-color: var(--white);
+      font-family: inherit;
+      color: var(--text);
+      font-size: 0.95rem;
+      transition: var(--transition);
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1rem;
+    }
+
+    .language-selector select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.2);
+    }
+
+    .form-section {
+      display: none;
+    }
+
+    .form-section.active {
+      display: block;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    label {
+      font-weight: 500;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    select {
+      padding: 0.8rem 1rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: var(--transition);
+      background: var(--white);
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="url"]:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(30, 136, 229, 0.2);
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .checkbox-group input {
+      width: 1.1rem;
+      height: 1.1rem;
+      accent-color: var(--primary);
+    }
+
+    button[type="submit"] {
+      background: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      margin-top: 1rem;
+    }
+
+    button[type="submit"]:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .success-message {
+      background: rgba(76, 175, 80, 0.1);
+      border: 2px solid var(--success);
+      color: var(--success);
+      padding: 1.5rem;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .success-message p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .success-message button {
+      background: var(--success);
+      color: var(--white);
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .success-message button:hover {
+      background: #43a047;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    pre {
+      white-space: pre-wrap;
+      font-size: 0.9rem;
+      max-height: 300px;
+      overflow-y: auto;
+      background: rgba(0, 0, 0, 0.03);
+      padding: 1.25rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      line-height: 1.5;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 1.5rem 0;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem 1rem;
+      }
+      
+      header {
+        padding: 1.5rem 0;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .tab-content {
+        padding: 1.5rem;
+      }
+      
+      .tabs {
+        border-radius: 12px;
+      }
+      
+      .tab {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <h1>Mario & Sonic Leaderboards</h1>
+      <p>Submit your best scores and join the competition!</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="language-selector">
+      <select id="language" onchange="changeLanguage(this.value)">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="es">Español</option>
+        <option value="ja">日本語</option>
+      </select>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" id="tab-info">Info</button>
+      <button class="tab" id="tab-submit">Submit Score</button>
+    </div>
+
+    <!-- INFO TAB CONTENT -->
+    <div id="content-info" class="tab-content active">
+      <!-- English Info -->
+      <div id="info-en" class="info-section">
+        <p>This is a call for any player who has played or is still actively playing a game in the Mario and Sonic series. We (the Mario and Sonic community) would like to ask you to send us your records using this link. Just send a picture of your record. We need a picture to verify that the record is legit. Please also include your gamertag, which character you used to set the record and (optionally) your nationality in the proof.</p><br>
+
+        <p>Your records will be posted on this website as soon as possible:</p>
+        <p><a href="https://mariosoniccentral.com" target="_blank" rel="noopener">https://mariosoniccentral.com</a></p><br>
+
+        <p>What kind of website is this? This is Mario and Sonic Central. This website shows all the top 10 records in every game, in every discipline. Here you can also collect points to compete against other players. You can gain points by getting top 10 placements in different games and climb up the leaderboard. To see all the top 10s in all the games press on the 3 stripes in the upper right corner. Then go to leaderboards and choose the game you wanna see the top 10 of.</p><br>
+
+        <p>If you want to be a part of the Mario and Sonic community, want to know what the best characters for every event are, have questions about how Mario and Sonic Central works and much more awesome stuff, feel free to join the Mario and Sonic Discord server!!!</p>
+        <p><a href="https://discord.gg/pXJca8TrnT" target="_blank" rel="noopener">Discord server link</a></p><br>
+
+        <p>If you have a record that is equal or better than the following, please submit your score to the submission tab on this page!</p>
+        <br>
+
+        <p>The top 10s will be shown under the game that they are in. So under the "Top 10 records for events in Beijing Wii" are all the top thresholds for top 10s in Mario and Sonic at the Beijing 2008 Olympic Games (Wii).</p><br>
+
+        <hr />
+
+        <pre>
+## Top 10 records for events in Beijing Wii
+**Athletics**
+100m: 9.266s
+110m Hurdles: 11.614s
+400m: 36.400s
+4x100m Relay: 35.495s
+400m Hurdles: 42.736s
+Long Jump: 9.805m
+Triple Jump: 19.562m
+Hammer Throw: 92.175m
+Javelin Throw: 119.806m
+
+**Shooting**
+Skeet: 40pts, 0:00
+
+**Aquatics**
+100m Freestyle: 43.638s
+4x100m Freestyle: 2:53.820
+
+**Rowing**
+Single Sculls: 6:19.711
+
+**Archery:** 120pts, 8.333
+
+
+
+
+## Top 10 records for events in Beijing DS
+**Atheltics**
+100m: 9.005s
+400m: 39.108s
+400m Hurdles: 41.293s
+Long Jump: 9.706m
+Triple Jump: 18.947m
+Javelin Throw: 103.327m
+Hammer Throw: 95.883m
+
+**Aquatics**
+100m Freestyle: 44.257s
+
+**Archery:** 120pts - 12.309s
+
+**Shooting:** 40pts - 50.065s
+
+**Cycling**
+Pursuit: 27.009s
+
+**Dream Events**
+Dream Race: 2:11.716
+Dream Basketball: 538pts
+Dream Long Jump: 2205.20m
+
+
+
+
+## Top 10 records for events in Vancouver Wii
+**Alpine Skiing**
+Downhill: 1:09.561
+Giant Slalom: 35.037s
+
+**Ski Jumping**
+Individual Large Hill: 353.2pts
+Team Large Hill: 679.5pts
+
+**Freestyle Skiing**
+Ski Cross: 40.541s
+
+**Snowboard Cross:** 34.927s
+
+**Speedskating**
+500m: 25.381s
+Short Track 1000m: 58.820s
+Short Track Relay: 4:53.624
+
+**Bobsleigh**
+Skeleton: 1:02.261
+Bobsleigh: 58.061s
+
+**Dream Events**
+Dream Alpine (Individual): 1:30.581
+Dream Alpine (Team): 6:48.879
+Dream Ski Jumping (Individual): 1410pts
+Dream Ski Jumping (Team): 2450pts
+Dream Ski Cross (Individual): 1:36.894
+Dream Ski Cross (Team): 7:23.895
+Dream Snowboard Cross (Individual): 1:20.278
+Dream Snowboard Cross (Team): 6:36.339
+Dream Short Track: 1:45.174
+Dream Bobsleigh: 1:31.310
+
+
+
+
+## Top 10 records for events in Vancouver DS
+**Skiing**
+Alpine Skiing Giant Slalom: 40.498s
+Ski Jumping LH: 328.592pts
+Moguls: 28.464pts
+Cross-Country: 10:52.696
+Nordic Combined: 11:07.349
+
+**Skating**
+Speedskating 500m: 27.825s
+Short Track 500m: 34.785s
+Figure Skating: 137.938pts
+
+**Snowboard Cross:** 47.634s
+
+**Bobsleigh**
+Bobsleigh: 48.621s
+Skeleton: 51.974s
+
+**Biathlon:** 11:23.016
+
+**Luge:** 41.220s
+
+**Dream Events**
+Super Sonic Downhill: 18.249s
+Rocket Ski Jumping: 2974.500m
+Ski Cross Racing: 1:14.104
+Ski Shooting: 51540pts
+Extreme Snowboarding: 2:30.854
+Deluxe Halfpipe: 30465pts
+Intense Short Track: 1:32.577
+Ultimate Figure Skating: 3929pts
+Blazing Bobsleigh: 58.505s
+
+
+
+
+## Top 10 records for events in London Wii
+**Athletics**
+100m: 8.088s
+110m hurdles: 11.271s
+4x100m Relay: 29.150s
+Long jump: 9.824m
+Hammer throw: 97.355m
+Discus throw: 83.999m
+Javelin throw: 99.053m
+
+**Aquatics**
+100m Freestyle: 43.527s
+Canoe Sprint 1000m: 3:08.264min
+
+**Equestrian show jumping**: 1:01.676min
+
+**Shooting - Pistol**: 480pts, 42.82s
+
+**Cycling - Team Persuit**: 1:14.715min
+
+**Dream events**
+Dream Long jump: 440.45m
+Dream Rafting: 620pts
+Dream Equestrian: 1:49.155min
+Dream Sprint: 47.179s
+Dream Trampoline: 753pts
+Dream Spacewalk: 1:13.705min
+
+
+
+
+## Top 10 records for events in London 3DS
+**Athletics**
+100m: 9.219s
+1500m: 3:16.087
+20km Racewalk: 1:16:45.634
+110m Hurdles: 12.555s
+Long Jump: 10.169m
+Triple Jump: 21.797m
+Shot Put: 34.891m
+Hammer Throw: 92.891m
+Javelin Throw: 107.753m
+
+**Aquatics**
+100m Freestyle: 46.128s
+100m Backstroke: 47.387s
+100m Breaststroke: 55.931s
+
+**Court & Field Sports**
+Badminton: 1019pts
+
+**Gymnastics**
+Floor: 20.060pts
+Horizontal Bar: 17.478pts
+Balance Beam: 19.733pts
+Rings: 21.060pts
+Trampoline: 47.494pts
+
+**Cycling**
+BMX: 35.040s
+
+**Boat Games**
+1000m Kayak: 2:56.576
+
+**Shooting**
+Double Trap: 3990pts
+
+**Multi-Discipline**
+Triathlon: 1:48:40.258
+Modern Pentathlon: 23875pts
+
+
+
+
+## Top 10 records for events in Sochi 2014
+**Alpine Skiing Downhill:** 1:28.891
+
+**Ski Jumping LH:** 339.52pts
+
+**Ski Cross:** 56.889s
+
+**Biathlon:** 20:22.145
+
+**Snowboard**
+Parallel Giant Slalom: 29.762s
+Snowboard Cross: 49.648s
+
+**Speedskating**
+Speedskating 500m: 25.792s
+Short Track 1000m: 1:11.437
+
+**Bobsleigh**
+Skeleton: 53.876s
+4-man Bobsleigh: 53.219s
+
+**Dream Events**
+Winter Sports Champion Race: 2:44.928
+Groove Pipe Snowboard:     1:46.771s
+Roller Coaster Bobsleigh: 1:48.306s
+Bullet Bill Sledge Race: 1:27.519s
+
+
+
+
+## Top 10 records for events in Rio WiiU
+**Athletics***
+100m: 7.181s
+4x100m Relay: 29.944s
+Triple jump: 22.384m
+Javelin throw: 107.837
+
+**Aquatics**
+100m Freestyle: 41.511s
+
+**BMX**: 36.228s
+
+**Equestrian**: 703.302pts
+
+**Archery**: 1585.754pts
+
+**Rhythmic Gymnastics**: 19.720pts
+
+
+
+
+## Top 10 records for events in Rio 3ds
+**Athletics**
+100m: 8.477s
+110m hurdles: 10.772s
+Javelin throw: 107.311m
+Long jump: 11.624m
+
+**Aquatics**
+100m Freestyle: 43.181s
+
+**Athletics plus**
+100m plus: 3.979s
+110m hurdles plus: 10.546s
+Javelin throw plus: 1441m
+Long jump plus: 25.727m
+
+**Aquatics plus**
+100m Freestyle plus: 44.480s
+
+**BMX**: 34.886s
+
+**BMX plus**: 34.412s
+
+**Equestrian**: 57.312s
+
+**Equestrian plus**: 55.643s
+
+**Archery**: 90pts
+
+**Archery plus**: 151pts
+
+**Rhythmic Gymnastics**: 19.907pts
+
+**Rhythmic Gymnastics plus**: 29.829pts
+
+**Golf**
+3-Hole Out: -7, 0.000m
+6-Hole Out: -12, 0.000m
+6-Hole In: -12, 0.000m
+9-Hole Out: -15, 0.000m
+9-Hole In: -13, 0.000m
+18-Hole: -23, 2.290m
+
+
+
+
+## Top 10 records for events in Tokyo 2020
+**Athletics**
+100m: 8.012s
+110m hurdles: 11.288s
+4x100m relay: 29.273s
+Javelin throw: 98.532m
+Triple jump: 20.453m
+Discus throw: 92.175m
+
+**Aquatics**
+Surfing: 953.151pts
+Canoe 1000m: 2:59.974min
+Swimming: 41.119s
+
+**Skateboarding**: 808.977pts
+
+**Gymnastics**: 16.457pts
+
+**Equestrian**: 48.783s
+
+**Archery**: 95.150pts
+
+**Dream Race**: 1:40.612min
+
+**1964 events**
+1964 100m: 7.891s
+1964 400m hurdles: 40.395s
+1964 Long jump: 11.311m
+1964 Marathon: 1:57.31
+1964 Kayak: 3:09.000min
+
+        </pre><br>
+
+        <p>If you have any more questions, feel free to ask me here, or in the discord!!</p><br>
+        <p>And if you have friends that are interested in the Mario and Sonic series, also show them this text!!</p><br>
+        <p><strong>THANK YOU!!!!</strong></p>
+      </div>
+      
+      <!-- French Info -->
+      <div id="info-fr" class="info-section">
+  <p>Ceci est un appel à tous les joueurs qui ont déjà joué ou jouent encore activement à un jeu de la série Mario and Sonic. Nous (la communauté Mario and Sonic) vous demandons de nous envoyer vos records via ce lien. Envoyez simplement une photo de votre record. Nous avons besoin d’une photo pour vérifier que le record est légitime. Merci d’inclure également votre gamertag, le personnage que vous avez utilisé pour établir le record et (optionnellement) votre nationalité dans la preuve.</p><br>
+
+  <p>Vos records seront publiés sur ce site dès que possible :</p>
+  <p><a href="https://mariosoniccentral.com" target="_blank" rel="noopener">https://mariosoniccentral.com</a></p><br>
+
+  <p>Quel genre de site est-ce ? C’est Mario and Sonic Central. Ce site montre tous les records du top 10 dans chaque jeu et chaque discipline. Ici, vous pouvez aussi collecter des points pour concurrencer d’autres joueurs. Vous gagnez des points en obtenant des places dans le top 10 dans différents jeux et grimpez ainsi dans le classement. Pour voir tous les top 10 de tous les jeux, cliquez sur les 3 barres en haut à droite, puis allez dans les classements et choisissez le jeu que vous souhaitez voir.</p><br>
+
+  <p>Si vous souhaitez faire partie de la communauté Mario and Sonic, savoir quels sont les meilleurs personnages pour chaque épreuve, poser des questions sur le fonctionnement de Mario and Sonic Central et découvrir plein d’autres choses géniales, n’hésitez pas à rejoindre le serveur Discord Mario and Sonic !!!</p>
+  <p><a href="https://discord.gg/pXJca8TrnT" target="_blank" rel="noopener">Lien du serveur Discord</a></p><br>
+
+  <p>Si vous avez un record égal ou meilleur que le suivant, veuillez soumettre votre score dans l'onglet de soumission sur cette page !</p><br>
+
+  <p>Les top 10 seront affichés sous le jeu correspondant. Par exemple, sous "Top 10 records pour les épreuves à Beijing Wii" se trouvent tous les meilleurs scores de Mario and Sonic aux Jeux Olympiques de Beijing 2008 (Wii).</p><br>
+
+  <hr />
+  
+  <pre>
+<b>Top 10 des records pour les événements à Beijing Wii</b>
+
+Athlétisme
+100 m : 9,266 s
+110 m haies : 11,614 s
+400 m : 36,400 s
+Relais 4 × 100 m : 35,495 s
+400 m haies : 42,736 s
+Saut en longueur : 9,805 m
+Triple saut : 19,562 m
+Lancer de marteau : 92,175 m
+Lancer de javelot : 119,806 m
+
+Tir
+Skeet : 40 pts, 0:00
+
+Sports aquatiques
+100 m nage libre : 43,638 s
+Relais 4 × 100 m nage libre : 2:53,820
+
+Aviron
+Skiff : 6:19,711
+
+Tir à l'arc : 120 pts, 8,333 s
+
+<b>Top 10 des records pour les événements à Beijing DS</b>
+
+Athlétisme
+100 m : 9,005 s
+400 m : 39,108 s
+400 m haies : 41,293 s
+Saut en longueur : 9,706 m
+Triple saut : 18,947 m
+Lancer de javelot : 103,327 m
+Lancer de marteau : 95,883 m
+
+Sports aquatiques
+100 m nage libre : 44,257 s
+
+Tir à l'arc : 120 pts – 12,309 s
+
+Tir : 40 pts – 50,065 s
+
+Cyclisme
+Poursuite : 27,009 s
+
+Événements Rêves
+Course Rêve : 2:11,716
+Basket-ball Rêve : 538 pts
+Saut en longueur Rêve : 2205,20 m
+
+<b>Top 10 des records pour les événements à Vancouver Wii</b>
+
+Ski alpin
+Descente : 1:09,561
+Slalom géant : 35,037 s
+
+Saut à ski
+Grand tremplin individuel : 353,2 pts
+Grand tremplin par équipe : 679,5 pts
+
+Ski acrobatique
+Ski cross : 40,541 s
+
+Snowboard cross : 34,927 s
+
+Patinage de vitesse
+500 m : 25,381 s
+1000 m patinage courte piste : 58,820 s
+Relais patinage courte piste : 4:53,624
+
+Bobsleigh
+Skeleton : 1:02,261
+Bobsleigh : 58,061 s
+
+Événements Rêves
+Ski alpin Rêve (individuel) : 1:30,581
+Ski alpin Rêve (équipe) : 6:48,879
+Saut à ski Rêve (individuel) : 1410 pts
+Saut à ski Rêve (équipe) : 2450 pts
+Ski cross Rêve (individuel) : 1:36,894
+Ski cross Rêve (équipe) : 7:23,895
+Snowboard cross Rêve (individuel) : 1:20,278
+Snowboard cross Rêve (équipe) : 6:36,339
+Patinage courte piste Rêve : 1:45,174
+Bobsleigh Rêve : 1:31,310
+
+<b>Top 10 des records pour les événements à Vancouver DS</b>
+
+Ski
+Slalom géant : 40,498 s
+Saut à ski (LH) : 328,592 pts
+Bosses : 28,464 pts
+Ski de fond : 10:52,696
+Combiné nordique : 11:07,349
+
+Patinage
+500 m patinage de vitesse : 27,825 s
+500 m patinage courte piste : 34,785 s
+Patinage artistique : 137,938 pts
+
+Snowboard cross : 47,634 s
+
+Bobsleigh
+Bobsleigh : 48,621 s
+Skeleton : 51,974 s
+
+Biathlon : 11:23,016
+
+Luge : 41,220 s
+
+Événements Rêves
+Descente supersonique : 18,249 s
+Saut à ski fusée : 2974,50 m
+Course de ski cross : 1:14,104
+Tir de ski : 51 540 pts
+Snowboard extrême : 2:30,854
+Halfpipe deluxe : 30 465 pts
+Patinage courte piste intense : 1:32,577
+Patinage artistique ultime : 3929 pts
+Bobsleigh flamboyant : 58,505 s
+
+<b>Top 10 des records pour les événements à London Wii</b>
+
+Athlétisme
+100 m : 8,088 s
+110 m haies : 11,271 s
+Relais 4 × 100 m : 29,150 s
+Saut en longueur : 9,824 m
+Lancer de marteau : 97,355 m
+Lancer de disque : 83,999 m
+Lancer de javelot : 99,053 m
+
+Sports aquatiques
+100 m nage libre : 43,527 s
+Canoë sprint 1000 m : 3:08,264 min
+
+Équitation (saut d'obstacles) : 1:01,676 min
+
+Tir (pistolet) : 480 pts, 42,82 s
+
+Cyclisme (poursuite par équipe) : 1:14,715 min
+
+Événements Rêves
+Saut en longueur Rêve : 440,45 m
+Rafting Rêve : 620 pts
+Équitation Rêve : 1:49,155 min
+Sprint Rêve : 47,179 s
+Trampoline Rêve : 753 pts
+Marche spatiale Rêve : 1:13,705 min
+
+<b>Top 10 des records pour les événements à London 3DS</b>
+
+Athlétisme
+100 m : 9,219 s
+1500 m : 3:16,087
+20 km marche : 1:16:45,634
+110 m haies : 12,555 s
+Saut en longueur : 10,169 m
+Triple saut : 21,797 m
+Lancer de poids : 34,891 m
+Lancer de marteau : 92,891 m
+Lancer de javelot : 107,753 m
+
+Sports aquatiques
+100 m nage libre : 46,128 s
+100 m dos : 47,387 s
+100 m brasse : 55,931 s
+
+Sports de terrain
+Badminton : 1019 pts
+
+Gymnastique
+Sol : 20,060 pts
+Barre fixe : 17,478 pts
+Poutre : 19,733 pts
+Anneaux : 21,060 pts
+Trampoline : 47,494 pts
+
+Cyclisme
+BMX : 35,040 s
+
+Sports nautiques
+1000 m kayak : 2:56,576
+
+Tir
+Double trap : 3990 pts
+
+Multidisciplinaire
+Triathlon : 1:48:40,258
+Pentathlon moderne : 23 875 pts
+
+<b>Top 10 des records pour les événements à Sochi 2014</b>
+
+Ski alpin (descente) : 1:28,891
+
+Saut à ski (LH) : 339,52 pts
+
+Ski cross : 56,889 s
+
+Biathlon : 20:22,145
+
+Snowboard
+Slalom géant parallèle : 29,762 s
+Snowboard cross : 49,648 s
+
+Patinage de vitesse
+500 m : 25,792 s
+1000 m courte piste : 1:11,437
+
+Bobsleigh
+Skeleton : 53,876 s
+Bobsleigh à 4 : 53,219 s
+
+Événements Rêves
+Course des champions d'hiver : 2:44,928
+Snowboard halfpipe groove : 1:46,771 s
+Bobsleigh montagnes russes : 1:48,306 s
+Course de luge Bullet Bill : 1:27,519 s
+
+<b>Top 10 des records pour les événements à Rio WiiU</b>
+
+Athlétisme
+100 m : 7,181 s
+Relais 4 × 100 m : 29,944 s
+Triple saut : 22,384 m
+Lancer de javelot : 107,837 m
+
+Sports aquatiques
+100 m nage libre : 41,511 s
+
+BMX : 36,228 s
+
+Équitation : 703,302 pts
+
+Tir à l'arc : 1585,754 pts
+
+Gymnastique rythmique : 19,720 pts
+
+<b>Top 10 des records pour les événements à Rio 3DS</b>
+
+Athlétisme
+100 m : 8,477 s
+110 m haies : 10,772 s
+Lancer de javelot : 107,311 m
+Saut en longueur : 11,624 m
+
+Sports aquatiques
+100 m nage libre : 43,181 s
+
+Athlétisme Plus
+100 m Plus : 3,979 s
+110 m haies Plus : 10,546 s
+Lancer de javelot Plus : 1441 m
+Saut en longueur Plus : 25,727 m
+
+Sports aquatiques Plus
+100 m nage libre Plus : 44,480 s
+
+BMX : 34,886 s
+BMX Plus : 34,412 s
+
+Équitation : 57,312 s
+Équitation Plus : 55,643 s
+
+Tir à l'arc : 90 pts
+Tir à l'arc Plus : 151 pts
+
+Gymnastique rythmique : 19,907 pts
+Gymnastique rythmique Plus : 29,829 pts
+
+Golf
+3 trous (Out) : -7, 0,000 m
+6 trous (Out) : -12, 0,000 m
+6 trous (In) : -12, 0,000 m
+9 trous (Out) : -15, 0,000 m
+9 trous (In) : -13, 0,000 m
+18 trous : -23, 2,290 m
+
+<b>Top 10 des records pour les événements à Tokyo 2020</b>
+
+Athlétisme
+100 m : 8,012 s
+110 m haies : 11,288 s
+Relais 4 × 100 m : 29,273 s
+Lancer de javelot : 98,532 m
+Triple saut : 20,453 m
+Lancer de disque : 92,175 m
+
+Sports aquatiques
+Surf : 953,151 pts
+Canoë 1000 m : 2:59,974 min
+Natation : 41,119 s
+
+Skateboard : 808,977 pts
+
+Gymnastique : 16,457 pts
+
+Équitation : 48,783 s
+
+Tir à l'arc : 95,150 pts
+
+Course Rêve : 1:40,612 min
+
+Événements 1964
+100 m (1964) : 7,891 s
+400 m haies (1964) : 40,395 s
+Saut en longueur (1964) : 11,311 m
+Marathon (1964) : 1:57,31
+Kayak (1964) : 3:09,000 min
+</pre><br>
+
+  <p>Si vous avez d’autres questions, n’hésitez pas à me les poser ici ou sur Discord !!</p><br>
+  <p>Et si vous avez des amis intéressés par la série Mario and Sonic, montrez-leur aussi ce texte !!</p><br>
+  <p><strong>MERCI !!!!</strong></p>
+</div>
+
+      
+      <!-- German Info -->
+      <div id="info-de" class="info-section">
+  <p>Dies ist ein Aufruf an alle Spieler, die jemals ein Spiel der Mario and Sonic Serie gespielt haben oder aktuell spielen. Wir (die Mario and Sonic Community) möchten dich bitten, uns deine Rekorde über diesen Link zu senden. Bitte schicke uns ein Bild deines Rekords. Wir benötigen ein Bild, um sicherzustellen, dass der Rekord echt ist. Bitte gib auch deinen Gamertag, den Charakter, mit dem du den Rekord erzielt hast, und (optional) deine Nationalität im Nachweis an.</p><br>
+
+  <p>Deine Rekorde werden so schnell wie möglich auf dieser Website veröffentlicht:</p>
+  <p><a href="https://mariosoniccentral.com" target="_blank" rel="noopener">https://mariosoniccentral.com</a></p><br>
+
+  <p>Was für eine Website ist das? Dies ist Mario and Sonic Central. Diese Website zeigt alle Top 10 Rekorde in jedem Spiel und in jeder Disziplin. Hier kannst du auch Punkte sammeln, um gegen andere Spieler anzutreten. Du erhältst Punkte durch Top 10 Platzierungen in verschiedenen Spielen und kannst so die Rangliste erklimmen. Um alle Top 10 in allen Spielen zu sehen, klicke auf die drei Striche oben rechts, gehe zu den Bestenlisten und wähle das Spiel, das du sehen möchtest.</p><br>
+
+  <p>Wenn du Teil der Mario and Sonic Community werden möchtest, wissen willst, welche Charaktere in jeder Disziplin am besten sind, Fragen zur Funktionsweise von Mario and Sonic Central hast oder mehr coole Sachen erfahren willst, dann tritt gerne unserem Mario and Sonic Discord Server bei!!!</p>
+  <p><a href="https://discord.gg/pXJca8TrnT" target="_blank" rel="noopener">Discord Server Link</a></p><br>
+
+  <p>Falls Sie eine gleichwertige oder bessere Leistung als die folgende erzielt haben, reichen Sie bitte Ihren Score über das Einreichungsformular auf dieser Seite ein!</p><br>
+
+  <p>Die Top 10 werden unter dem Spiel angezeigt, in dem sie erzielt wurden. Unter "Top 10 Rekorde für Disziplinen in Beijing Wii" findest du alle Top-Scores für Mario and Sonic at the Beijing 2008 Olympic Games (Wii).</p><br>
+
+  <hr />
+
+<pre>
+<b>Top 10 Rekorde für Veranstaltungen in Beijing Wii</b>
+
+Leichtathletik
+100 m: 9,266 s
+110 m Hürden: 11,614 s
+400 m: 36,400 s
+4×100 m Staffel: 35,495 s
+400 m Hürden: 42,736 s
+Weitsprung: 9,805 m
+Dreisprung: 19,562 m
+Hammerwurf: 92,175 m
+Speerwurf: 119,806 m
+
+Schießen
+Skeet: 40 Pkt., 0:00
+
+Wassersport
+100 m Freistil: 43,638 s
+4×100 m Freistil: 2:53,820
+
+Rudern
+Einer: 6:19,711
+
+Bogenschießen: 120 Pkt., 8,333 s
+
+<b>Top 10 Rekorde für Veranstaltungen in Beijing DS</b>
+
+Leichtathletik
+100 m: 9,005 s
+400 m: 39,108 s
+400 m Hürden: 41,293 s
+Weitsprung: 9,706 m
+Dreisprung: 18,947 m
+Speerwurf: 103,327 m
+Hammerwurf: 95,883 m
+
+Wassersport
+100 m Freistil: 44,257 s
+
+Bogenschießen: 120 Pkt. - 12,309 s
+
+Schießen: 40 Pkt. - 50,065 s
+
+Radsport
+Verfolgung: 27,009 s
+
+Traum-Events
+Traumrennen: 2:11,716
+Traum-Basketball: 538 Pkt.
+Traum-Weitsprung: 2205,20 m
+
+<b>Top 10 Rekorde für Veranstaltungen in Vancouver Wii</b>
+
+Alpinski
+Abfahrt: 1:09,561
+Riesenslalom: 35,037 s
+
+Skispringen
+Großschanze Einzel: 353,2 Pkt.
+Großschanze Team: 679,5 Pkt.
+
+Freestyle-Skiing
+Ski Cross: 40,541 s
+
+Snowboard Cross: 34,927 s
+
+Eisschnelllauf
+500 m: 25,381 s
+1000 m Short Track: 58,820 s
+Short Track Staffel: 4:53,624
+
+Bob
+Skeleton: 1:02,261
+Bob: 58,061 s
+
+Traum-Events
+Traum-Alpin (Einzel): 1:30,581
+Traum-Alpin (Team): 6:48,879
+Traum-Skispringen (Einzel): 1410 Pkt.
+Traum-Skispringen (Team): 2450 Pkt.
+Traum-Ski Cross (Einzel): 1:36,894
+Traum-Ski Cross (Team): 7:23,895
+Traum-Snowboard Cross (Einzel): 1:20,278
+Traum-Snowboard Cross (Team): 6:36,339
+Traum-Short Track: 1:45,174
+Traum-Bob: 1:31,310
+
+<b>Top 10 Rekorde für Veranstaltungen in Vancouver DS</b>
+
+Skisport
+Riesenslalom: 40,498 s
+Skispringen LH: 328,592 Pkt.
+Buckelpiste: 28,464 Pkt.
+Langlauf: 10:52,696
+Nordische Kombination: 11:07,349
+
+Eislauf
+500 m Eisschnelllauf: 27,825 s
+500 m Short Track: 34,785 s
+Eiskunstlauf: 137,938 Pkt.
+
+Snowboard Cross: 47,634 s
+
+Bob
+Bob: 48,621 s
+Skeleton: 51,974 s
+
+Biathlon: 11:23,016
+
+Rodeln: 41,220 s
+
+Traum-Events
+Überschall-Abfahrt: 18,249 s
+Raketen-Skispringen: 2974,50 m
+Ski Cross Racing: 1:14,104
+Ski-Schießen: 51540 Pkt.
+Extrem-Snowboard: 2:30,854
+Deluxe-Halfpipe: 30465 Pkt.
+Intensiver Short Track: 1:32,577
+Ultimativer Eiskunstlauf: 3929 Pkt.
+Flammender Bob: 58,505 s
+
+<b>Top 10 Rekorde für Veranstaltungen in London Wii</b>
+
+Leichtathletik
+100 m: 8,088 s
+110 m Hürden: 11,271 s
+4×100 m Staffel: 29,150 s
+Weitsprung: 9,824 m
+Hammerwurf: 97,355 m
+Diskuswurf: 83,999 m
+Speerwurf: 99,053 m
+
+Wassersport
+100 m Freistil: 43,527 s
+Kanu-Sprint 1000 m: 3:08,264 min
+
+Springreiten: 1:01,676 min
+
+Schießen (Pistole): 480 Pkt., 42,82 s
+
+Radsport (Mannschaftsverfolgung): 1:14,715 min
+
+Traum-Events
+Traum-Weitsprung: 440,45 m
+Traum-Rafting: 620 Pkt.
+Traum-Springreiten: 1:49,155 min
+Traum-Sprint: 47,179 s
+Traum-Trampolin: 753 Pkt.
+Traum-Weltraumspaziergang: 1:13,705 min
+
+<b>Top 10 Rekorde für Veranstaltungen in London 3DS</b>
+
+Leichtathletik
+100 m: 9,219 s
+1500 m: 3:16,087
+20 km Gehen: 1:16:45,634
+110 m Hürden: 12,555 s
+Weitsprung: 10,169 m
+Dreisprung: 21,797 m
+Kugelstoßen: 34,891 m
+Hammerwurf: 92,891 m
+Speerwurf: 107,753 m
+
+Wassersport
+100 m Freistil: 46,128 s
+100 m Rücken: 47,387 s
+100 m Brust: 55,931 s
+
+Hallen- und Feldsport
+Badminton: 1019 Pkt.
+
+Turnen
+Boden: 20,060 Pkt.
+Reck: 17,478 Pkt.
+Schwebebalken: 19,733 Pkt.
+Ringe: 21,060 Pkt.
+Trampolin: 47,494 Pkt.
+
+Radsport
+BMX: 35,040 s
+
+Wassersport
+1000 m Kajak: 2:56,576
+
+Schießen
+Doppeltrap: 3990 Pkt.
+
+Mehrkampf
+Triathlon: 1:48:40,258
+Modernes Fünfkampf: 23875 Pkt.
+
+<b>Top 10 Rekorde für Veranstaltungen in Sochi 2014</b>
+
+Alpinski (Abfahrt): 1:28,891
+
+Skispringen (LH): 339,52 Pkt.
+
+Ski Cross: 56,889 s
+
+Biathlon: 20:22,145
+
+Snowboard
+Parallel-Riesenslalom: 29,762 s
+Snowboard Cross: 49,648 s
+
+Eisschnelllauf
+500 m: 25,792 s
+1000 m Short Track: 1:11,437
+
+Bob
+Skeleton: 53,876 s
+4er-Bob: 53,219 s
+
+Traum-Events
+Winter-Champions-Rennen: 2:44,928
+Groove-Pipe-Snowboard: 1:46,771 s
+Achterbahn-Bob: 1:48,306 s
+Bullet-Bill-Schlittenrennen: 1:27,519 s
+
+<b>Top 10 Rekorde für Veranstaltungen in Rio WiiU</b>
+
+Leichtathletik
+100 m: 7,181 s
+4×100 m Staffel: 29,944 s
+Dreisprung: 22,384 m
+Speerwurf: 107,837 m
+
+Wassersport
+100 m Freistil: 41,511 s
+
+BMX: 36,228 s
+
+Reitsport: 703,302 Pkt.
+
+Bogenschießen: 1585,754 Pkt.
+
+Rhythmische Sportgymnastik: 19,720 Pkt.
+
+<b>Top 10 Rekorde für Veranstaltungen in Rio 3DS</b>
+
+Leichtathletik
+100 m: 8,477 s
+110 m Hürden: 10,772 s
+Speerwurf: 107,311 m
+Weitsprung: 11,624 m
+
+Wassersport
+100 m Freistil: 43,181 s
+
+Leichtathletik Plus
+100 m Plus: 3,979 s
+110 m Hürden Plus: 10,546 s
+Speerwurf Plus: 1441 m
+Weitsprung Plus: 25,727 m
+
+Wassersport Plus
+100 m Freistil Plus: 44,480 s
+
+BMX: 34,886 s
+BMX Plus: 34,412 s
+
+Reitsport: 57,312 s
+Reitsport Plus: 55,643 s
+
+Bogenschießen: 90 Pkt.
+Bogenschießen Plus: 151 Pkt.
+
+Rhythmische Sportgymnastik: 19,907 Pkt.
+Rhythmische Sportgymnastik Plus: 29,829 Pkt.
+
+Golf
+3-Loch (Out): -7, 0,000 m
+6-Loch (Out): -12, 0,000 m
+6-Loch (In): -12, 0,000 m
+9-Loch (Out): -15, 0,000 m
+9-Loch (In): -13, 0,000 m
+18-Loch: -23, 2,290 m
+
+<b>Top 10 Rekorde für Veranstaltungen in Tokyo 2020</b>
+
+Leichtathletik
+100 m: 8,012 s
+110 m Hürden: 11,288 s
+4×100 m Staffel: 29,273 s
+Speerwurf: 98,532 m
+Dreisprung: 20,453 m
+Diskuswurf: 92,175 m
+
+Wassersport
+Surfen: 953,151 Pkt.
+Kanu 1000 m: 2:59,974 min
+Schwimmen: 41,119 s
+
+Skateboard: 808,977 Pkt.
+
+Turnen: 16,457 Pkt.
+
+Reitsport: 48,783 s
+
+Bogenschießen: 95,150 Pkt.
+
+Traumrennen: 1:40,612 min
+
+1964 Events
+100 m (1964): 7,891 s
+400 m Hürden (1964): 40,395 s
+Weitsprung (1964): 11,311 m
+Marathon (1964): 1:57,31
+Kajak (1964): 3:09,000 min
+</pre><br>
+
+  <p>Wenn du noch Fragen hast, kannst du mich hier oder im Discord gerne fragen!!</p><br>
+  <p>Und wenn du Freunde hast, die an der Mario and Sonic Serie interessiert sind, zeig ihnen gerne diesen Text!!</p><br>
+  <p><strong>VIELEN DANK!!!!</strong></p>
+</div>
+
+      
+      <!-- Spanish Info -->
+      <div id="info-es" class="info-section">
+  <p>Esta es una convocatoria para cualquier jugador que haya jugado o esté jugando activamente un juego de la serie Mario and Sonic. Nosotros (la comunidad de Mario and Sonic) queremos pedirte que nos envíes tus récords usando este enlace. Solo envía una foto de tu récord. Necesitamos la foto para verificar que el récord sea legítimo. Por favor, incluye también tu gamertag, qué personaje usaste para establecer el récord y (opcionalmente) tu nacionalidad en la prueba.</p><br>
+
+  <p>Tus récords serán publicados en este sitio web lo antes posible:</p>
+  <p><a href="https://mariosoniccentral.com" target="_blank" rel="noopener">https://mariosoniccentral.com</a></p><br>
+
+  <p>¿Qué tipo de sitio web es este? Este es Mario and Sonic Central. Este sitio muestra los 10 mejores récords en cada juego y en cada disciplina. Aquí también puedes ganar puntos para competir contra otros jugadores. Puedes ganar puntos logrando estar en el top 10 de diferentes juegos y subir en la tabla de clasificación. Para ver todos los top 10 en todos los juegos, pulsa las 3 rayas en la esquina superior derecha. Luego ve a las clasificaciones y elige el juego que quieras ver.</p><br>
+
+  <p>Si quieres formar parte de la comunidad de Mario and Sonic, saber cuáles son los mejores personajes para cada evento, tienes preguntas sobre cómo funciona Mario and Sonic Central y muchas cosas más, ¡únete al servidor de Discord de Mario and Sonic!</p>
+  <p><a href="https://discord.gg/pXJca8TrnT" target="_blank" rel="noopener">Enlace al servidor de Discord</a></p><br>
+
+  <p>Si tienes un récord igual o mejor que el siguiente, ¡envía tu puntuación en la pestaña de envío de esta página!</p><br>
+
+  <p>Los top 10 se mostrarán bajo el juego al que pertenecen. Por ejemplo, bajo "Top 10 récords para eventos en Beijing Wii" están todos los récords top para Mario and Sonic en los Juegos Olímpicos de Beijing 2008 (Wii).</p><br>
+
+  <hr />
+  
+  <pre>
+<b>Top 10 récords de eventos en Beijing Wii</b>
+
+Atletismo
+100 m: 9.266 s
+110 m vallas: 11.614 s
+400 m: 36.400 s
+Relevo 4×100 m: 35.495 s
+400 m vallas: 42.736 s
+Salto largo: 9.805 m
+Triple salto: 19.562 m
+Lanzamiento de martillo: 92.175 m
+Lanzamiento de jabalina: 119.806 m
+
+Tiro
+Skeet: 40 pts, 0:00
+
+Deportes acuáticos
+100 m libre: 43.638 s
+Relevo 4×100 m libre: 2:53.820
+
+Remo
+Scull individual: 6:19.711
+
+Tiro con arco: 120 pts, 8.333 s
+
+<b>Top 10 récords de eventos en Beijing DS</b>
+
+Atletismo
+100 m: 9.005 s
+400 m: 39.108 s
+400 m vallas: 41.293 s
+Salto largo: 9.706 m
+Triple salto: 18.947 m
+Lanzamiento de jabalina: 103.327 m
+Lanzamiento de martillo: 95.883 m
+
+Deportes acuáticos
+100 m libre: 44.257 s
+
+Tiro con arco: 120 pts – 12.309 s
+
+Tiro: 40 pts – 50.065 s
+
+Ciclismo
+Persecución: 27.009 s
+
+Eventos de ensueño
+Carrera de ensueño: 2:11.716
+Baloncesto de ensueño: 538 pts
+Salto largo de ensueño: 2205.20 m
+
+<b>Top 10 récords de eventos en Vancouver Wii</b>
+
+Esquí alpino
+Descenso: 1:09.561
+Eslalon gigante: 35.037 s
+
+Salto en esquí
+Trampolín grande individual: 353.2 pts
+Trampolín grande por equipos: 679.5 pts
+
+Esquí acrobático
+Ski cross: 40.541 s
+
+Snowboard cross: 34.927 s
+
+Patinaje de velocidad
+500 m: 25.381 s
+1000 m pista corta: 58.820 s
+Relevo pista corta: 4:53.624
+
+Bobsleigh
+Skeleton: 1:02.261
+Bobsleigh: 58.061 s
+
+Eventos de ensueño
+Esquí alpino de ensueño (individual): 1:30.581
+Esquí alpino de ensueño (equipo): 6:48.879
+Salto en esquí de ensueño (individual): 1410 pts
+Salto en esquí de ensueño (equipo): 2450 pts
+Ski cross de ensueño (individual): 1:36.894
+Ski cross de ensueño (equipo): 7:23.895
+Snowboard cross de ensueño (individual): 1:20.278
+Snowboard cross de ensueño (equipo): 6:36.339
+Patinaje pista corta de ensueño: 1:45.174
+Bobsleigh de ensueño: 1:31.310
+
+<b>Top 10 récords de eventos en Vancouver DS</b>
+
+Esquí
+Eslalon gigante: 40.498 s
+Salto en esquí (LH): 328.592 pts
+Baches: 28.464 pts
+Esquí de fondo: 10:52.696
+Combinado nórdico: 11:07.349
+
+Patinaje
+500 m velocidad: 27.825 s
+500 m pista corta: 34.785 s
+Patinaje artístico: 137.938 pts
+
+Snowboard cross: 47.634 s
+
+Bobsleigh
+Bobsleigh: 48.621 s
+Skeleton: 51.974 s
+
+Biatlón: 11:23.016
+
+Luge: 41.220 s
+
+Eventos de ensueño
+Descenso supersónico: 18.249 s
+Salto en esquí cohete: 2974.50 m
+Carrera ski cross: 1:14.104
+Tiro con esquíes: 51540 pts
+Snowboard extremo: 2:30.854
+Halfpipe deluxe: 30465 pts
+Pista corta intensa: 1:32.577
+Patinaje artístico definitivo: 3929 pts
+Bobsleigh ardiente: 58.505 s
+
+<b>Top 10 récords de eventos en London Wii</b>
+
+Atletismo
+100 m: 8.088 s
+110 m vallas: 11.271 s
+Relevo 4×100 m: 29.150 s
+Salto largo: 9.824 m
+Lanzamiento de martillo: 97.355 m
+Lanzamiento de disco: 83.999 m
+Lanzamiento de jabalina: 99.053 m
+
+Deportes acuáticos
+100 m libre: 43.527 s
+Canoa sprint 1000 m: 3:08.264 min
+
+Hípica (salto): 1:01.676 min
+
+Tiro (pistola): 480 pts, 42.82 s
+
+Ciclismo (persecución por equipos): 1:14.715 min
+
+Eventos de ensueño
+Salto largo de ensueño: 440.45 m
+Rafting de ensueño: 620 pts
+Hípica de ensueño: 1:49.155 min
+Sprint de ensueño: 47.179 s
+Trampolín de ensueño: 753 pts
+Paseo espacial de ensueño: 1:13.705 min
+
+<b>Top 10 récords de eventos en London 3DS</b>
+
+Atletismo
+100 m: 9.219 s
+1500 m: 3:16.087
+20 km marcha: 1:16:45.634
+110 m vallas: 12.555 s
+Salto largo: 10.169 m
+Triple salto: 21.797 m
+Lanzamiento de peso: 34.891 m
+Lanzamiento de martillo: 92.891 m
+Lanzamiento de jabalina: 107.753 m
+
+Deportes acuáticos
+100 m libre: 46.128 s
+100 m espalda: 47.387 s
+100 m braza: 55.931 s
+
+Deportes de cancha
+Bádminton: 1019 pts
+
+Gimnasia
+Suelo: 20.060 pts
+Barra fija: 17.478 pts
+Viga de equilibrio: 19.733 pts
+Anillas: 21.060 pts
+Trampolín: 47.494 pts
+
+Ciclismo
+BMX: 35.040 s
+
+Deportes náuticos
+1000 m kayak: 2:56.576
+
+Tiro
+Doble trap: 3990 pts
+
+Multidisciplina
+Triatlón: 1:48:40.258
+Pentatlón moderno: 23875 pts
+
+<b>Top 10 récords de eventos en Sochi 2014</b>
+
+Esquí alpino (descenso): 1:28.891
+
+Salto en esquí (LH): 339.52 pts
+
+Ski cross: 56.889 s
+
+Biatlón: 20:22.145
+
+Snowboard
+Eslalon gigante paralelo: 29.762 s
+Snowboard cross: 49.648 s
+
+Patinaje de velocidad
+500 m: 25.792 s
+1000 m pista corta: 1:11.437
+
+Bobsleigh
+Skeleton: 53.876 s
+Bobsleigh 4 hombres: 53.219 s
+
+Eventos de ensueño
+Carrera campeona de invierno: 2:44.928
+Snowboard halfpipe groove: 1:46.771 s
+Bobsleigh montaña rusa: 1:48.306 s
+Carrera de trineo Bullet Bill: 1:27.519 s
+
+<b>Top 10 récords de eventos en Rio WiiU</b>
+
+Atletismo
+100 m: 7.181 s
+Relevo 4×100 m: 29.944 s
+Triple salto: 22.384 m
+Lanzamiento de jabalina: 107.837 m
+
+Deportes acuáticos
+100 m libre: 41.511 s
+
+BMX: 36.228 s
+
+Hípica: 703.302 pts
+
+Tiro con arco: 1585.754 pts
+
+Gimnasia rítmica: 19.720 pts
+
+<b>Top 10 récords de eventos en Rio 3DS</b>
+
+Atletismo
+100 m: 8.477 s
+110 m vallas: 10.772 s
+Lanzamiento de jabalina: 107.311 m
+Salto largo: 11.624 m
+
+Deportes acuáticos
+100 m libre: 43.181 s
+
+Atletismo Plus
+100 m Plus: 3.979 s
+110 m vallas Plus: 10.546 s
+Lanzamiento de jabalina Plus: 1441 m
+Salto largo Plus: 25.727 m
+
+Deportes acuáticos Plus
+100 m libre Plus: 44.480 s
+
+BMX: 34.886 s
+BMX Plus: 34.412 s
+
+Hípica: 57.312 s
+Hípica Plus: 55.643 s
+
+Tiro con arco: 90 pts
+Tiro con arco Plus: 151 pts
+
+Gimnasia rítmica: 19.907 pts
+Gimnasia rítmica Plus: 29.829 pts
+
+Golf
+3 hoyos (Out): -7, 0.000 m
+6 hoyos (Out): -12, 0.000 m
+6 hoyos (In): -12, 0.000 m
+9 hoyos (Out): -15, 0.000 m
+9 hoyos (In): -13, 0.000 m
+18 hoyos: -23, 2.290 m
+
+<b>Top 10 récords de eventos en Tokyo 2020</b>
+
+Atletismo
+100 m: 8.012 s
+110 m vallas: 11.288 s
+Relevo 4×100 m: 29.273 s
+Lanzamiento de jabalina: 98.532 m
+Triple salto: 20.453 m
+Lanzamiento de disco: 92.175 m
+
+Deportes acuáticos
+Surf: 953.151 pts
+Canoa 1000 m: 2:59.974 min
+Natación: 41.119 s
+
+Skateboard: 808.977 pts
+
+Gimnasia: 16.457 pts
+
+Hípica: 48.783 s
+
+Tiro con arco: 95.150 pts
+
+Carrera de ensueño: 1:40.612 min
+
+Eventos 1964
+100 m (1964): 7.891 s
+400 m vallas (1964): 40.395 s
+Salto largo (1964): 11.311 m
+Maratón (1964): 1:57.31
+Kayak (1964): 3:09.000 min
+</pre><br>
+
+  <p>Si tienes más preguntas, no dudes en preguntarme aquí o en Discord!!</p><br>
+  <p>Y si tienes amigos interesados en la serie Mario and Sonic, ¡muéstrales este texto también!!</p><br>
+  <p><strong>¡¡¡GRACIAS!!!</strong></p>
+</div>
+
+      
+      <!-- Japanese Info -->
+      <div id="info-ja" class="info-section">
+  <p>これは、マリオ＆ソニックシリーズのゲームをプレイしたことがある、または現在もプレイしているすべてのプレイヤーへの呼びかけです。私たち（マリオ＆ソニックコミュニティ）は、以下のリンクからあなたの記録を送っていただきたいと思っています。記録の写真を送ってください。記録が正当であることを確認するために写真が必要です。証拠にはゲーマータグ、記録を出した際に使用したキャラクター、（任意で）国籍も含めてください。</p><br>
+
+  <p>あなたの記録はできるだけ早くこのウェブサイトに掲載されます：</p>
+  <p><a href="https://mariosoniccentral.com" target="_blank" rel="noopener">https://mariosoniccentral.com</a></p><br>
+
+  <p>このウェブサイトは何のサイト？ここはマリオ＆ソニック・セントラルです。このサイトでは、すべてのゲームのあらゆる種目でのトップ10記録を掲載しています。ここでは、さまざまなゲームでトップ10入りすることでポイントを獲得し、他のプレイヤーと競い合うこともできます。右上の三本線のアイコンを押して「リーダーボード」に行き、見たいゲームを選んでください。</p><br>
+
+  <p>マリオ＆ソニックのコミュニティに参加したい方、各種目で最強のキャラクターを知りたい方、マリオ＆ソニック・セントラルの仕組みについて質問がある方、その他素晴らしい情報を知りたい方は、ぜひマリオ＆ソニックのDiscordサーバーに参加してください！！</p>
+  <p><a href="https://discord.gg/pXJca8TrnT" target="_blank" rel="noopener">Discordサーバーリンク</a></p><br>
+
+  <p>以下の記録と同等またはそれ以上の成績をお持ちの場合は、このページの「提出」タブからスコアを送信してください！</p><br>
+
+  <p>トップ10記録は、それぞれのゲームの下に表示されます。例えば「北京Wii」のトップ10記録は、『マリオ＆ソニック AT 北京2008オリンピック』（Wii版）のトップ記録です。</p><br>
+
+  <hr />
+  
+  <pre>
+<b>北京Wiiのトップ10記録</b>
+
+陸上競技
+100m: 9.266秒
+110mハードル: 11.614秒
+400m: 36.400秒
+4×100mリレー: 35.495秒
+400mハードル: 42.736秒
+走幅跳: 9.805m
+三段跳: 19.562m
+ハンマー投: 92.175m
+やり投: 119.806m
+
+射撃
+スキート: 40点, 0:00
+
+水上競技
+100m自由形: 43.638秒
+4×100m自由形リレー: 2:53.820
+
+ボート競技
+シングルスカル: 6:19.711
+
+アーチェリー: 120点, 8.333秒
+
+<b>北京DSのトップ10記録</b>
+
+陸上競技
+100m: 9.005秒
+400m: 39.108秒
+400mハードル: 41.293秒
+走幅跳: 9.706m
+三段跳: 18.947m
+やり投: 103.327m
+ハンマー投: 95.883m
+
+水上競技
+100m自由形: 44.257秒
+
+アーチェリー: 120点 - 12.309秒
+
+射撃: 40点 - 50.065秒
+
+自転車競技
+個人追い抜き: 27.009秒
+
+ドリームイベント
+ドリームレース: 2:11.716
+ドリームバスケットボール: 538点
+ドリーム走幅跳: 2205.20m
+
+<b>バンクーバーWiiのトップ10記録</b>
+
+アルペンスキー
+ダウンヒル: 1:09.561
+ジャイアントスラローム: 35.037秒
+
+スキージャンプ
+ラージヒル個人: 353.2点
+ラージヒル団体: 679.5点
+
+フリースタイルスキー
+スキークロス: 40.541秒
+
+スノーボードクロス: 34.927秒
+
+スピードスケート
+500m: 25.381秒
+ショートトラック1000m: 58.820秒
+ショートトラックリレー: 4:53.624
+
+ボブスレー
+スケルトン: 1:02.261
+ボブスレー: 58.061秒
+
+ドリームイベント
+ドリームアルペン（個人）: 1:30.581
+ドリームアルペン（団体）: 6:48.879
+ドリームスキージャンプ（個人）: 1410点
+ドリームスキージャンプ（団体）: 2450点
+ドリームスキークロス（個人）: 1:36.894
+ドリームスキークロス（団体）: 7:23.895
+ドリームスノーボードクロス（個人）: 1:20.278
+ドリームスノーボードクロス（団体）: 6:36.339
+ドリームショートトラック: 1:45.174
+ドリームボブスレー: 1:31.310
+
+<b>バンクーバーDSのトップ10記録</b>
+
+スキー
+ジャイアントスラローム: 40.498秒
+スキージャンプLH: 328.592点
+モーグル: 28.464点
+クロスカントリー: 10:52.696
+ノルディック複合: 11:07.349
+
+スケート
+スピードスケート500m: 27.825秒
+ショートトラック500m: 34.785秒
+フィギュアスケート: 137.938点
+
+スノーボードクロス: 47.634秒
+
+ボブスレー
+ボブスレー: 48.621秒
+スケルトン: 51.974秒
+
+バイアスロン: 11:23.016
+
+リュージュ: 41.220秒
+
+ドリームイベント
+スーパーソニックダウンヒル: 18.249秒
+ロケットスキージャンプ: 2974.50m
+スキークロスレーシング: 1:14.104
+スキーシューティング: 51540点
+エクストリームスノーボード: 2:30.854
+デラックスハーフパイプ: 30465点
+インテンシブショートトラック: 1:32.577
+アルティメットフィギュア: 3929点
+ブレイジングボブスレー: 58.505秒
+
+<b>ロンドンWiiのトップ10記録</b>
+
+陸上競技
+100m: 8.088秒
+110mハードル: 11.271秒
+4×100mリレー: 29.150秒
+走幅跳: 9.824m
+ハンマー投: 97.355m
+円盤投: 83.999m
+やり投: 99.053m
+
+水上競技
+100m自由形: 43.527秒
+カヌースプリント1000m: 3:08.264分
+
+馬術（障害飛越）: 1:01.676分
+
+射撃（ピストル）: 480点, 42.82秒
+
+自転車競技（団体追い抜き）: 1:14.715分
+
+ドリームイベント
+ドリーム走幅跳: 440.45m
+ドリームラフティング: 620点
+ドリーム馬術: 1:49.155分
+ドリームスプリント: 47.179秒
+ドリームトランポリン: 753点
+ドリーム宇宙遊泳: 1:13.705分
+
+<b>ロンドン3DSのトップ10記録</b>
+
+陸上競技
+100m: 9.219秒
+1500m: 3:16.087
+20km競歩: 1:16:45.634
+110mハードル: 12.555秒
+走幅跳: 10.169m
+三段跳: 21.797m
+砲丸投: 34.891m
+ハンマー投: 92.891m
+やり投: 107.753m
+
+水上競技
+100m自由形: 46.128秒
+100m背泳ぎ: 47.387秒
+100m平泳ぎ: 55.931秒
+
+球技
+バドミントン: 1019点
+
+体操
+床運動: 20.060点
+鉄棒: 17.478点
+平均台: 19.733点
+つり輪: 21.060点
+トランポリン: 47.494点
+
+自転車競技
+BMX: 35.040秒
+
+ボート競技
+1000mカヤック: 2:56.576
+
+射撃
+ダブルトラップ: 3990点
+
+複合競技
+トライアスロン: 1:48:40.258
+近代五種: 23875点
+
+<b>ソチ2014のトップ10記録</b>
+
+アルペンスキー（ダウンヒル）: 1:28.891
+
+スキージャンプ（LH）: 339.52点
+
+スキークロス: 56.889秒
+
+バイアスロン: 20:22.145
+
+スノーボード
+パラレルジャイアントスラローム: 29.762秒
+スノーボードクロス: 49.648秒
+
+スピードスケート
+500m: 25.792秒
+ショートトラック1000m: 1:11.437
+
+ボブスレー
+スケルトン: 53.876秒
+4人乗りボブスレー: 53.219秒
+
+ドリームイベント
+ウィンタースポーツチャンピオンレース: 2:44.928
+グルーブパイプスノーボード: 1:46.771秒
+ローラーコスターボブスレー: 1:48.306秒
+バレットビルそりレース: 1:27.519秒
+
+<b>リオWiiUのトップ10記録</b>
+
+陸上競技
+100m: 7.181秒
+4×100mリレー: 29.944秒
+三段跳: 22.384m
+やり投: 107.837m
+
+水上競技
+100m自由形: 41.511秒
+
+BMX: 36.228秒
+
+馬術: 703.302点
+
+アーチェリー: 1585.754点
+
+新体操: 19.720点
+
+<b>リオ3DSのトップ10記録</b>
+
+陸上競技
+100m: 8.477秒
+110mハードル: 10.772秒
+やり投: 107.311m
+走幅跳: 11.624m
+
+水上競技
+100m自由形: 43.181秒
+
+陸上競技プラス
+100mプラス: 3.979秒
+110mハードルプラス: 10.546秒
+やり投プラス: 1441m
+走幅跳プラス: 25.727m
+
+水上競技プラス
+100m自由形プラス: 44.480秒
+
+BMX: 34.886秒
+BMXプラス: 34.412秒
+
+馬術: 57.312秒
+馬術プラス: 55.643秒
+
+アーチェリー: 90点
+アーチェリープラス: 151点
+
+新体操: 19.907点
+新体操プラス: 29.829点
+
+ゴルフ
+3ホールアウト: -7, 0.000m
+6ホールアウト: -12, 0.000m
+6ホールイン: -12, 0.000m
+9ホールアウト: -15, 0.000m
+9ホールイン: -13, 0.000m
+18ホール: -23, 2.290m
+
+<b>東京2020のトップ10記録</b>
+
+陸上競技
+100m: 8.012秒
+110mハードル: 11.288秒
+4×100mリレー: 29.273秒
+やり投: 98.532m
+三段跳: 20.453m
+円盤投: 92.175m
+
+水上競技
+サーフィン: 953.151点
+カヌー1000m: 2:59.974分
+水泳: 41.119秒
+
+スケートボード: 808.977点
+
+体操: 16.457点
+
+馬術: 48.783秒
+
+アーチェリー: 95.150点
+
+ドリームレース: 1:40.612分
+
+1964年イベント
+1964年100m: 7.891秒
+1964年400mハードル: 40.395秒
+1964年走幅跳: 11.311m
+1964年マラソン: 1:57.31
+1964年カヤック: 3:09.000分
+  </pre><br>
+
+  <p>他に質問があれば、ここかDiscordで気軽に聞いてください！！</p><br>
+  <p>マリオ＆ソニックシリーズに興味がある友達にもこのテキストをぜひ見せてください！！</p><br>
+  <p><strong>ありがとうございます！！</strong></p>
+</div>
+
+    </div>
+
+    <!-- SUBMIT TAB CONTENT -->
+    <div id="content-submit" class="tab-content">
+      <!-- English Form -->
+      <form id="scoreForm-en" class="form-section active">
+        <div class="form-group">
+          <label for="name-en">What is your name? *</label>
+          <input type="text" id="name-en" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email-en">Email (optional, to contact you about your submission)</label>
+          <input type="email" id="email-en" name="email">
+        </div>
+
+        <div class="form-group">
+          <label for="game-en">What game are you submitting to? *</label>
+          <select id="game-en" name="game" required>
+            <option value="">-- Select a game --</option>
+            <option>Beijing Wii</option>
+            <option>Beijing DS</option>
+            <option>Vancouver Wii</option>
+            <option>Vancouver DS</option>
+            <option>London Wii</option>
+            <option>London 3DS</option>
+            <option>Sochi</option>
+            <option>Rio Wii U</option>
+            <option>Rio 3DS</option>
+            <option>Tokyo</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="event-en">What event are you submitting to? *</label>
+          <input type="text" id="event-en" name="event" required>
+        </div>
+
+        <div class="form-group">
+          <label for="score-en">Score *</label>
+          <input type="text" id="score-en" name="score" required>
+        </div>
+
+        <div class="form-group">
+          <label for="proof-en">Proof (link to video or image) *</label>
+          <input type="url" id="proof-en" name="proof" required>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="agree-en" name="agree" required>
+          <label for="agree-en">I agree that my score and name will be publicly visible on mariosoniccentral.com *</label>
+        </div>
+
+        <button type="submit">Submit</button>
+      </form>
+
+      <!-- French Form -->
+      <form id="scoreForm-fr" class="form-section">
+        <div class="form-group">
+          <label for="name-fr">Quel est votre nom ? (ce nom apparaîtra sur les classements)</label>
+          <input type="text" id="name-fr" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email-fr">Votre e-mail (facultatif, en cas de question)</label>
+          <input type="email" id="email-fr" name="email">
+        </div>
+
+        <div class="form-group">
+          <label for="game-fr">À quel jeu soumettez-vous une performance ?</label>
+          <select id="game-fr" name="game" required>
+            <option value="">-- Sélectionnez un jeu --</option>
+            <option>Beijing Wii</option>
+            <option>Beijing DS</option>
+            <option>Vancouver Wii</option>
+            <option>Vancouver DS</option>
+            <option>London Wii</option>
+            <option>London 3DS</option>
+            <option>Sochi</option>
+            <option>Rio Wii U</option>
+            <option>Rio 3DS</option>
+            <option>Tokyo</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="event-fr">À quel événement participez-vous ?</label>
+          <input type="text" id="event-fr" name="event" required>
+        </div>
+
+        <div class="form-group">
+          <label for="score-fr">Votre score</label>
+          <input type="text" id="score-fr" name="score" required>
+        </div>
+
+        <div class="form-group">
+          <label for="proof-fr">Preuve (lien ou vidéo)</label>
+          <input type="url" id="proof-fr" name="proof" required>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="agree-fr" name="agree" required>
+          <label for="agree-fr">J'accepte que mon nom et mon score soient affichés sur mariosoniccentral.com</label>
+        </div>
+
+        <button type="submit">Soumettre</button>
+      </form>
+
+      <!-- German Form -->
+      <form id="scoreForm-de" class="form-section">
+        <div class="form-group">
+          <label for="name-de">Wie heißt du? (Dieser Name wird auf der Bestenliste erscheinen)</label>
+          <input type="text" id="name-de" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email-de">Deine E-Mail (optional, falls wir Fragen haben)</label>
+          <input type="email" id="email-de" name="email">
+        </div>
+
+        <div class="form-group">
+          <label for="game-de">Für welches Spiel gibst du eine Leistung ein?</label>
+          <select id="game-de" name="game" required>
+            <option value="">-- Spiel auswählen --</option>
+            <option>Beijing Wii</option>
+            <option>Beijing DS</option>
+            <option>Vancouver Wii</option>
+            <option>Vancouver DS</option>
+            <option>London Wii</option>
+            <option>London 3DS</option>
+            <option>Sochi</option>
+            <option>Rio Wii U</option>
+            <option>Rio 3DS</option>
+            <option>Tokyo</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="event-de">Für welchen Wettkampf gibst du eine Leistung ein?</label>
+          <input type="text" id="event-de" name="event" required>
+        </div>
+
+        <div class="form-group">
+          <label for="score-de">Dein Ergebnis</label>
+          <input type="text" id="score-de" name="score" required>
+        </div>
+
+        <div class="form-group">
+          <label for="proof-de">Beweis (Link oder Video)</label>
+          <input type="url" id="proof-de" name="proof" required>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="agree-de" name="agree" required>
+          <label for="agree-de">Ich bin damit einverstanden, dass mein Name und Ergebnis auf mariosoniccentral.com angezeigt werden</label>
+        </div>
+
+        <button type="submit">Einreichen</button>
+      </form>
+
+      <!-- Spanish Form -->
+      <form id="scoreForm-es" class="form-section">
+        <div class="form-group">
+          <label for="name-es">¿Cuál es tu nombre? (este nombre aparecerá en las tablas de clasificación)</label>
+          <input type="text" id="name-es" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email-es">Tu correo electrónico (opcional, en caso de que tengamos preguntas)</label>
+          <input type="email" id="email-es" name="email">
+        </div>
+
+        <div class="form-group">
+          <label for="game-es">¿A qué juego estás enviando una puntuación?</label>
+          <select id="game-es" name="game" required>
+            <option value="">-- Selecciona un juego --</option>
+            <option>Beijing Wii</option>
+            <option>Beijing DS</option>
+            <option>Vancouver Wii</option>
+            <option>Vancouver DS</option>
+            <option>London Wii</option>
+            <option>London 3DS</option>
+            <option>Sochi</option>
+            <option>Rio Wii U</option>
+            <option>Rio 3DS</option>
+            <option>Tokyo</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="event-es">¿A qué evento estás enviando una puntuación?</label>
+          <input type="text" id="event-es" name="event" required>
+        </div>
+
+        <div class="form-group">
+          <label for="score-es">Tu puntuación</label>
+          <input type="text" id="score-es" name="score" required>
+        </div>
+
+        <div class="form-group">
+          <label for="proof-es">Prueba (enlace o video)</label>
+          <input type="url" id="proof-es" name="proof" required>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="agree-es" name="agree" required>
+          <label for="agree-es">Acepto que mi nombre y puntuación se muestren en mariosoniccentral.com</label>
+        </div>
+
+        <button type="submit">Enviar</button>
+      </form>
+
+      <!-- Japanese Form -->
+      <form id="scoreForm-ja" class="form-section">
+        <div class="form-group">
+          <label for="name-ja">あなたの名前は？（この名前はリーダーボードに表示されます）</label>
+          <input type="text" id="name-ja" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email-ja">メールアドレス（任意、質問がある場合に使用）</label>
+          <input type="email" id="email-ja" name="email">
+        </div>
+
+        <div class="form-group">
+          <label for="game-ja">どのゲームにスコアを提出しますか？</label>
+          <select id="game-ja" name="game" required>
+            <option value="">-- ゲームを選択 --</option>
+            <option>Beijing Wii</option>
+            <option>Beijing DS</option>
+            <option>Vancouver Wii</option>
+            <option>Vancouver DS</option>
+            <option>London Wii</option>
+            <option>London 3DS</option>
+            <option>Sochi</option>
+            <option>Rio Wii U</option>
+            <option>Rio 3DS</option>
+            <option>Tokyo</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="event-ja">どの種目にスコアを提出しますか？</label>
+          <input type="text" id="event-ja" name="event" required>
+        </div>
+
+        <div class="form-group">
+          <label for="score-ja">あなたのスコア</label>
+          <input type="text" id="score-ja" name="score" required>
+        </div>
+
+        <div class="form-group">
+          <label for="proof-ja">証拠（リンクまたは動画）</label>
+          <input type="url" id="proof-ja" name="proof" required>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="agree-ja" name="agree" required>
+          <label for="agree-ja">名前とスコアが mariosoniccentral.com に表示されることに同意します</label>
+        </div>
+
+        <button type="submit">提出</button>
+      </form>
+
+      <div id="successMessage" class="success-message" style="display:none;">
+        <p>Your submission was received successfully! Thank you!</p>
+        <button id="submitAnother">Submit another score</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  // Complete translations for all UI elements
+const translations = {
+  tabs: {
+    info: {
+      en: "Info",
+      fr: "Info",
+      de: "Info",
+      es: "Info",
+      ja: "情報"
+    },
+    submit: {
+      en: "Submit Score",
+      fr: "Soumettre un score",
+      de: "Ergebnis einreichen",
+      es: "Enviar puntuación",
+      ja: "スコア提出"
+    }
+  },
+  success: {
+    message: {
+      en: "Your submission was received successfully! Thank you!",
+      fr: "Votre soumission a été reçue avec succès ! Merci !",
+      de: "Ihre Einsendung wurde erfolgreich empfangen! Vielen Dank!",
+      es: "¡Tu envío fue recibido con éxito! ¡Gracias!",
+      ja: "提出が成功しました！ありがとうございます！"
+    },
+    button: {
+      en: "Submit another score",
+      fr: "Soumettre un autre score",
+      de: "Weiteres Ergebnis einreichen",
+      es: "Enviar otra puntuación",
+      ja: "別のスコアを提出"
+    }
+  },
+  submitting: {
+    en: "Submitting...",
+    fr: "Envoi en cours...",
+    de: "Wird übermittelt...",
+    es: "Enviando...",
+    ja: "送信中..."
+  },
+  errors: {
+    submissionFailed: {
+      en: "Submission failed: ",
+      fr: "Échec de l'envoi : ",
+      de: "Übermittlung fehlgeschlagen: ",
+      es: "Error en el envío: ",
+      ja: "送信に失敗しました: "
+    }
+  },
+  gameSelect: {
+    placeholder: {
+      en: "-- Select a game --",
+      fr: "-- Sélectionnez un jeu --",
+      de: "-- Spiel auswählen --",
+      es: "-- Selecciona un juego --",
+      ja: "-- ゲームを選択 --"
+    },
+    games: {
+      en: [
+        { value: "Beijing Wii", text: "Beijing Wii" },
+        { value: "Beijing DS", text: "Beijing DS" },
+        { value: "Vancouver Wii", text: "Vancouver Wii" },
+        { value: "Vancouver DS", text: "Vancouver DS" },
+        { value: "London Wii", text: "London Wii" },
+        { value: "London 3DS", text: "London 3DS" },
+        { value: "Sochi", text: "Sochi" },
+        { value: "Rio Wii U", text: "Rio Wii U" },
+        { value: "Rio 3DS", text: "Rio 3DS" },
+        { value: "Tokyo", text: "Tokyo" }
+      ],
+      fr: [
+        { value: "Beijing Wii", text: "Beijing Wii" },
+        { value: "Beijing DS", text: "Beijing DS" },
+        { value: "Vancouver Wii", text: "Vancouver Wii" },
+        { value: "Vancouver DS", text: "Vancouver DS" },
+        { value: "London Wii", text: "London Wii" },
+        { value: "London 3DS", text: "London 3DS" },
+        { value: "Sochi", text: "Sotchi" },
+        { value: "Rio Wii U", text: "Rio Wii U" },
+        { value: "Rio 3DS", text: "Rio 3DS" },
+        { value: "Tokyo", text: "Tokyo" }
+      ],
+      de: [
+        { value: "Beijing Wii", text: "Beijing Wii" },
+        { value: "Beijing DS", text: "Beijing DS" },
+        { value: "Vancouver Wii", text: "Vancouver Wii" },
+        { value: "Vancouver DS", text: "Vancouver DS" },
+        { value: "London Wii", text: "London Wii" },
+        { value: "London 3DS", text: "London 3DS" },
+        { value: "Sochi", text: "Sotschi" },
+        { value: "Rio Wii U", text: "Rio Wii U" },
+        { value: "Rio 3DS", text: "Rio 3DS" },
+        { value: "Tokyo", text: "Tokio" }
+      ],
+      es: [
+        { value: "Beijing Wii", text: "Beijing Wii" },
+        { value: "Beijing DS", text: "Beijing DS" },
+        { value: "Vancouver Wii", text: "Vancouver Wii" },
+        { value: "Vancouver DS", text: "Vancouver DS" },
+        { value: "London Wii", text: "Londres Wii" },
+        { value: "London 3DS", text: "Londres 3DS" },
+        { value: "Sochi", text: "Sochi" },
+        { value: "Rio Wii U", text: "Río Wii U" },
+        { value: "Rio 3DS", text: "Río 3DS" },
+        { value: "Tokyo", text: "Tokio" }
+      ],
+      ja: [
+        { value: "Beijing Wii", text: "北京 Wii" },
+        { value: "Beijing DS", text: "北京 DS" },
+        { value: "Vancouver Wii", text: "バンクーバー Wii" },
+        { value: "Vancouver DS", text: "バンクーバー DS" },
+        { value: "London Wii", text: "ロンドン Wii" },
+        { value: "London 3DS", text: "ロンドン 3DS" },
+        { value: "Sochi", text: "ソチ" },
+        { value: "Rio Wii U", text: "リオ Wii U" },
+        { value: "Rio 3DS", text: "リオ 3DS" },
+        { value: "Tokyo", text: "東京" }
+      ]
+    }
+  }
+};
+
+// Tab switching
+function switchTab(tabId) {
+  // Update tabs
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  document.getElementById(`tab-${tabId}`).classList.add('active');
+  
+  // Update content
+  document.querySelectorAll('.tab-content').forEach(content => {
+    content.classList.remove('active');
+  });
+  document.getElementById(`content-${tabId}`).classList.add('active');
+}
+
+// Language switching
+function changeLanguage(lang) {
+  // Switch info sections
+  document.querySelectorAll('.info-section').forEach(section => {
+    section.style.display = 'none';
+  });
+  document.getElementById(`info-${lang}`).style.display = 'block';
+  
+  // Switch form sections
+  document.querySelectorAll('.form-section').forEach(form => {
+    form.style.display = 'none';
+  });
+  document.getElementById(`scoreForm-${lang}`).style.display = 'block';
+  
+  // Update tab titles
+  document.getElementById('tab-info').textContent = translations.tabs.info[lang];
+  document.getElementById('tab-submit').textContent = translations.tabs.submit[lang];
+  
+  // Update game selectors - optimized version
+  document.querySelectorAll('select[id*="game-"]').forEach(select => {
+    const currentValue = select.value;
+    
+    // Clear existing options
+    select.innerHTML = '';
+    
+    // Add placeholder
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = translations.gameSelect.placeholder[lang];
+    select.appendChild(placeholder);
+    
+    // Add game options
+    translations.gameSelect.games[lang].forEach(game => {
+      const option = document.createElement('option');
+      option.value = game.value;
+      option.textContent = game.text;
+      select.appendChild(option);
+    });
+    
+    // Restore selected value if it exists
+    if (currentValue && Array.from(select.options).some(opt => opt.value === currentValue)) {
+      select.value = currentValue;
+    }
+  });
+  
+  // Update success message if visible
+  const successMessage = document.getElementById('successMessage');
+  if (successMessage && successMessage.style.display === 'block') {
+    const p = successMessage.querySelector('p');
+    const button = successMessage.querySelector('button');
+    if (p) p.textContent = translations.success.message[lang];
+    if (button) button.textContent = translations.success.button[lang];
+  }
+}
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize tabs
+  document.getElementById('tab-info').textContent = translations.tabs.info['en'];
+  document.getElementById('tab-submit').textContent = translations.tabs.submit['en'];
+  
+  // Initialize game selectors
+  document.querySelectorAll('select[id*="game-"]').forEach(select => {
+    const lang = select.id.split('-')[1] || 'en';
+    
+    // Add placeholder
+    const placeholder = document.createElement('option');
+    placeholder.value = '';
+    placeholder.textContent = translations.gameSelect.placeholder[lang];
+    select.appendChild(placeholder);
+    
+    // Add game options
+    translations.gameSelect.games[lang].forEach(game => {
+      const option = document.createElement('option');
+      option.value = game.value;
+      option.textContent = game.text;
+      select.appendChild(option);
+    });
+  });
+  
+  // Set up tab event listeners
+  document.getElementById('tab-info').addEventListener('click', () => switchTab('info'));
+  document.getElementById('tab-submit').addEventListener('click', () => switchTab('submit'));
+  
+  // Set up form submissions
+  document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      
+      const currentLang = this.id.split('-')[1] || 'en';
+      submitBtn.textContent = translations.submitting[currentLang];
+      
+      const formData = new FormData(this);
+      const params = new URLSearchParams(formData);
+      
+      fetch("https://script.google.com/macros/s/AKfycbxI6nhKRoin_XRGXJRKvEi5BPSwXe-oERsFgr_eHd6yUif78ikU2O1sVNSNMM4RSQnf/exec", {
+        method: "POST",
+        body: params,
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.text();
+      })
+      .then(text => {
+        if (text.toLowerCase().includes("success")) {
+          this.style.display = "none";
+          const successMessage = document.getElementById("successMessage");
+          if (successMessage) {
+            successMessage.style.display = "block";
+            const p = successMessage.querySelector('p');
+            const button = successMessage.querySelector('button');
+            if (p) p.textContent = translations.success.message[currentLang];
+            if (button) button.textContent = translations.success.button[currentLang];
+          }
+        } else {
+          throw new Error(text || "Submission failed");
+        }
+      })
+      .catch(error => {
+        alert(translations.errors.submissionFailed[currentLang] + error.message);
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      });
+    });
+  });
+
+  // Set up "submit another" button
+  const submitAnotherBtn = document.getElementById('submitAnother');
+  if (submitAnotherBtn) {
+    submitAnotherBtn.addEventListener('click', function() {
+      const activeForm = document.querySelector('.form-section.active');
+      if (activeForm) activeForm.style.display = "block";
+      
+      const successMessage = document.getElementById("successMessage");
+      if (successMessage) successMessage.style.display = "none";
+    });
+  }
+
+  // Initialize language selector
+  const languageSelector = document.getElementById('language');
+  if (languageSelector) {
+    languageSelector.addEventListener('change', function() {
+      changeLanguage(this.value);
+    });
+  }
+});
+</script>
+</body>
+</html>
